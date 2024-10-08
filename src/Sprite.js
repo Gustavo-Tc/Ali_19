@@ -9,7 +9,8 @@ export class Sprite extends GameObject{
         vFrames,
         frame,
         scale,
-        position
+        position,
+        animations
     })
     {
      super({});
@@ -21,6 +22,7 @@ export class Sprite extends GameObject{
         this.frameMap = new Map();
         this.scale = scale ?? 1;
         this.position = position ?? new Vector2(0,0);
+        this.animations = animations ?? null;
         this.buildFrameMap();
     }
 
@@ -36,6 +38,14 @@ export class Sprite extends GameObject{
                 frameCount++;
             }
         }
+    }
+
+    step(delta) {
+        if (!this.animations) {
+            return;
+        }
+        this.animations.step(delta);
+        this.frame = this.animations.frame;
     }
 
     drawImage(ctx, x ,y){

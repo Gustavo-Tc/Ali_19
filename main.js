@@ -4,9 +4,9 @@ import { resources } from './src/Resource.js';
 import { Sprite } from './src/Sprite.js';
 import { Vector2 } from './src/Vector2.js';
 import { Input, LEFT } from './src/Input.js';
-import { gridCells } from './src/helpers/grid.js';
 import { Map } from './src/Map.js';
 import { GameObject } from './src/GameObject.js';
+import { Hero } from './src/Objects/Hero/Hero.js';
 
 
 const canvas = document.querySelector("#game-canvas");
@@ -32,67 +32,25 @@ const shadowSprite = new Sprite({
     frameSize: new Vector2(32, 32)
 })
 
-const hero = new Sprite({
-    resource: resources.images.hero,
-    frameSize: new Vector2(32,32),
-    hFrames: 3,
-    vFrames: 8,
-    frame: 1,
-    position: new Vector2(gridCells(6), gridCells(5))
-})
-
-
-
 const input = new Input();
+
+const hero = new Hero(0, 0, input);
+mainScene.addChild(hero);
+
 
 const map = new Map();
 
-const update = () => {
-
-    if( input.lastDirection === "DOWN") {
-        //hero.position.y += 1;
-
-        hero.frame = 0;
-    }
-
-    if( input.lastDirection === "UP") {
-        //hero.position.y -= 1;
-        
-        hero.frame = 6;
-    }
-
-    if( input.lastDirection === "LEFT") {
-        //hero.position.x -= 1;
-        
-        hero.frame = 9;
-    }
-
-    if( input.lastDirection === "RIGHT") {
-        //hero.position.x += 1;
-        
-        hero.frame = 3;
-    }
-
-    hero.position.add(input.direction);
-
-    if(hero.getMapPos().equals(new Vector2(3,3))){
-        console.log("ACHOOOU!");
-    }
-
-    //console.log(hero.getMapPos());
+const update = (delta) => {
+    mainScene.children.forEach(children => {
+        children.step(delta);
+    });
+    
 }
 
 
 
 const draw = () => {
     mainScene.draw(ctx,0,0);
-    
-    // skySprite.drawImage(ctx,0,0);
-    // groundSprite.drawImage(ctx,0,0);
-
-    // const heroOffset = new Vector2(-8, -21);
-    // shadowSprite.drawImage(ctx, hero.position.x + heroOffset.x, hero.position.y + heroOffset.y);
-    // hero.drawImage(ctx, hero.position.x + heroOffset.x, hero.position.y + heroOffset.y)
 }
 
 

@@ -1,5 +1,5 @@
 // Set the date we're counting down to
-var countDownDate = new Date("Oct 11, 2024 00:00:00").getTime();
+var countDownDate = new Date("Oct 11, 2024 10:00:00").getTime();
 
 var btn = document.getElementById("Acesso");
 

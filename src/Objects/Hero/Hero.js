@@ -7,10 +7,11 @@ import { WALK_DOWN, WALK_UP, WALK_LEFT, WALK_RIGHT ,STAND_DOWN, STAND_UP, STAND_
 import { Animations } from "../../Animations.js"
 import { Input } from "../../Input.js";
 import { UP, DOWN, LEFT, RIGHT} from "../../Input.js";
+import { Rectangle } from "../../Rectangle.js";
 
 export class Hero extends GameObject{
 
-    constructor(x,y, input)
+    constructor(x,y, input, map)
     {
         super({
             position: new Vector2(x,y),
@@ -20,10 +21,11 @@ export class Hero extends GameObject{
         this.lastDirection = DOWN;
         
         this.input = input;
+        this.map = map;
 
         this.body = new Sprite({
             resource: resources.images.hero,
-            frameSize: new Vector2(32,32),
+            frameSize: new Vector2(16,16),
             hFrames: 3,
             vFrames: 8,
             frame: 1,
@@ -40,6 +42,8 @@ export class Hero extends GameObject{
                 standRight: new FrameIndexPattern(STAND_RIGHT)
             })
         })
+
+        this.rectangle = new Rectangle(this.position.x, this.position.y, this.body.frameSize.x, this.body.frameSize.y);
     }
 
     Move(){
@@ -64,6 +68,36 @@ export class Hero extends GameObject{
                 this.body.animations.play("walkRight");
                 this.lastDirection = RIGHT;
             }
+
+            this.position.x += this.input.direction.x;
+            if(this.input.direction.x < 0){
+                if(this.map.getCell(new Vector2(this.position.x / 16, this.rectangle.Top() / 16)) === 1 ||
+                this.map.getCell(new Vector2(this.position.x / 16, (this.rectangle.Bottom() - 1)/ 16)) === 1){
+                    this.position.x -= this.input.direction.x;
+                }
+            }else if(this.input.direction.x > 0){
+                if(this.map.getCell(new Vector2(this.rectangle.Right() / 16, this.rectangle.Top() / 16)) === 1 ||
+                this.map.getCell(new Vector2(this.rectangle.Right() / 16, (this.rectangle.Bottom() - 1) / 16)) === 1){
+                    this.position.x -= this.input.direction.x;
+                }
+            }
+
+            
+            
+            this.position.y += this.input.direction.y;
+            
+            if(this.input.direction.y < 0){
+                if(this.map.getCell(new Vector2(this.position.x / 16, this.position.y / 16)) === 1 ||
+                this.map.getCell(new Vector2((this.rectangle.Right() - 1) / 16, this.position.y / 16)) === 1 ){
+                    this.position.y -= this.input.direction.y;
+                }
+            }else if(this.input.direction.y > 0){
+                if(this.map.getCell(new Vector2(this.rectangle.Left() / 16, this.rectangle.Bottom() / 16)) === 1 ||
+                this.map.getCell(new Vector2((this.rectangle.Right() - 1) / 16, this.rectangle.Bottom() / 16)) === 1 ){
+                    this.position.y -= this.input.direction.y;
+                }
+            }
+
         }else{
             if(this.lastDirection === UP){
                 this.body.animations.play("standUp");
@@ -80,22 +114,29 @@ export class Hero extends GameObject{
 
         }
     
-        this.position.add(this.input.direction);
+        //this.position.add(this.input.direction);
     
         if(this.body.getMapPos().equals(new Vector2(3,3))){
             console.log("ACHOOOU!");
         }
-    
-        //console.log(hero.getMapPos());
+        
+        
+
     }
 
     draw(ctx, x,y){
-        this.body.draw(ctx, this.position.x, this.position.y);
+        this.body.draw(ctx, this.position.x - 6 * 16, this.position.y - 5 * 16);
     }
 
     step(delta){
+        this.rectangle.x = this.position.x;
+        this.rectangle.y = this.position.y;
+
         this.body.step(delta);
-        console.log(this.lastDirection);
         this.Move();
+
+
+        //console.log(this.getMapPos());
+
     }
 }

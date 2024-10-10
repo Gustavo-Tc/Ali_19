@@ -19,10 +19,10 @@ const skySprite = new Sprite({
     resource: resources.images.sky,
     frameSize: new Vector2(320,180)
 })
-mainScene.addChild(skySprite);
+//mainScene.addChild(skySprite);
 
 const groundSprite = new Sprite({
-    resource: resources.images.ground,
+    resource: resources.images.map,
     frameSize: new Vector2(320,180)
 })
 mainScene.addChild(groundSprite);
@@ -33,12 +33,13 @@ const shadowSprite = new Sprite({
 })
 
 const input = new Input();
+const map = new Map();
 
-const hero = new Hero(0, 0, input);
+
+const hero = new Hero(96, 96, input, map);
 mainScene.addChild(hero);
 
 
-const map = new Map();
 
 const update = (delta) => {
     mainScene.children.forEach(children => {

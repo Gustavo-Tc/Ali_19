@@ -68,4 +68,8 @@ export class GameObject {
       return gameObject !== g;
     })
   }
+
+  getMapPos(){
+    return new Vector2(parseInt(this.position.x / 16), parseInt(this.position.y / 16));
+  }
 }

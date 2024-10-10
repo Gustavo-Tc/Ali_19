@@ -1,5 +1,6 @@
 import { GameObject } from './GameObject.js';
 import { Vector2 } from './Vector2.js';
+import { Rectangle } from './Rectangle.js';
 
 export class Sprite extends GameObject{
     constructor({
@@ -23,6 +24,7 @@ export class Sprite extends GameObject{
         this.scale = scale ?? 1;
         this.position = position ?? new Vector2(0,0);
         this.animations = animations ?? null;
+
         this.buildFrameMap();
     }
 

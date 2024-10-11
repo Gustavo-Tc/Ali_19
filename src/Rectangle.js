@@ -23,8 +23,8 @@ export class Rectangle{
         if(this.Left() > rectangle.Left() && this.Left() <= rectangle.Right()
         ||this.Right() > rectangle.Left() && this.Left() <= rectangle.Right()){
 
-            if(this.Top() > rectangle.Bottom() && this.Top() <= rectangle.Top()
-            ||this.Bottom() > rectangle.Bottom() && this.Top() <= rectangle.Top()){
+            if(rectangle.Top() > this.Top() && rectangle.Top() <= this.Bottom() 
+            || rectangle.Bottom() > this.Top() && rectangle.Bottom() <= this.Bottom()){
             return true;
             }else{
                 return false;

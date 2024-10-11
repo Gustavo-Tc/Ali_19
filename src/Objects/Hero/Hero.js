@@ -8,10 +8,11 @@ import { Animations } from "../../Animations.js"
 import { Input } from "../../Input.js";
 import { UP, DOWN, LEFT, RIGHT} from "../../Input.js";
 import { Rectangle } from "../../Rectangle.js";
+import { KeyHandler } from "../KeyHandler.js";
 
 export class Hero extends GameObject{
 
-    constructor(x,y, input, map)
+    constructor(x,y, input, map, keyHandler)
     {
         super({
             position: new Vector2(x,y),
@@ -23,6 +24,7 @@ export class Hero extends GameObject{
         this.input = input;
         this.map = map;
 
+        this.keyHandler = keyHandler
         this.body = new Sprite({
             resource: resources.images.hero,
             frameSize: new Vector2(16,16),
@@ -46,7 +48,7 @@ export class Hero extends GameObject{
         this.rectangle = new Rectangle(this.position.x, this.position.y, this.body.frameSize.x, this.body.frameSize.y);
     }
 
-    Move(){
+    Move(delta){
         
         if(!this.input.direction.equals(new Vector2(0,0))){
             if( this.input.lastDirection === "DOWN") {
@@ -69,32 +71,35 @@ export class Hero extends GameObject{
                 this.lastDirection = RIGHT;
             }
 
-            this.position.x += this.input.direction.x;
-            if(this.input.direction.x < 0){
+            let destination = this.input.direction;
+            //destination = new Vector2(parseInt(destination.x), parseInt(destination.y));
+
+            this.position.x += destination.x;
+            if(destination.x < 0){
                 if(this.map.getCell(new Vector2(this.position.x / 16, this.rectangle.Top() / 16)) === 1 ||
                 this.map.getCell(new Vector2(this.position.x / 16, (this.rectangle.Bottom() - 1)/ 16)) === 1){
-                    this.position.x -= this.input.direction.x;
+                    this.position.x -= destination.x;
                 }
-            }else if(this.input.direction.x > 0){
+            }else if(destination.x > 0){
                 if(this.map.getCell(new Vector2(this.rectangle.Right() / 16, this.rectangle.Top() / 16)) === 1 ||
                 this.map.getCell(new Vector2(this.rectangle.Right() / 16, (this.rectangle.Bottom() - 1) / 16)) === 1){
-                    this.position.x -= this.input.direction.x;
+                    this.position.x -= destination.x;
                 }
             }
 
             
             
-            this.position.y += this.input.direction.y;
+            this.position.y += destination.y;
             
-            if(this.input.direction.y < 0){
+            if(destination.y < 0){
                 if(this.map.getCell(new Vector2(this.position.x / 16, this.position.y / 16)) === 1 ||
                 this.map.getCell(new Vector2((this.rectangle.Right() - 1) / 16, this.position.y / 16)) === 1 ){
-                    this.position.y -= this.input.direction.y;
+                    this.position.y -= destination.y;
                 }
-            }else if(this.input.direction.y > 0){
+            }else if(destination.y > 0){
                 if(this.map.getCell(new Vector2(this.rectangle.Left() / 16, this.rectangle.Bottom() / 16)) === 1 ||
                 this.map.getCell(new Vector2((this.rectangle.Right() - 1) / 16, this.rectangle.Bottom() / 16)) === 1 ){
-                    this.position.y -= this.input.direction.y;
+                    this.position.y -= destination.y;
                 }
             }
 
@@ -115,10 +120,7 @@ export class Hero extends GameObject{
         }
     
         //this.position.add(this.input.direction);
-    
-        if(this.body.getMapPos().equals(new Vector2(3,3))){
-            console.log("ACHOOOU!");
-        }
+        this.keyHandler.checkIfCollided(this.rectangle);
         
         
 
@@ -133,7 +135,7 @@ export class Hero extends GameObject{
         this.rectangle.y = this.position.y;
 
         this.body.step(delta);
-        this.Move();
+        this.Move(delta);
 
 
         //console.log(this.getMapPos());

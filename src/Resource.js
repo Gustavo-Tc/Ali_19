@@ -6,7 +6,9 @@ class Resources {
             ground: "./sprites/ground.png",
             hero: "./sprites/hero-sheet.png",
             shadow: "./sprites/shadow.png",
-            map: "./sprites/map.png"
+            map: "./sprites/map.png",
+            button_up: "./sprites/button_up.png",
+            button_down: "./sprites/button_down.png"
         };
 
         //Um depósito das imagens

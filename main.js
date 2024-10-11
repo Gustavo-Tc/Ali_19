@@ -7,6 +7,9 @@ import { Input, LEFT } from './src/Input.js';
 import { Map } from './src/Map.js';
 import { GameObject } from './src/GameObject.js';
 import { Hero } from './src/Objects/Hero/Hero.js';
+import { Button_Single } from './src/Objects/Button_single.js';
+import { KeyHandler } from './src/Objects/KeyHandler.js';
+import { Button_Hold } from './src/Objects/Button_hold.js';
 
 
 const canvas = document.querySelector("#game-canvas");
@@ -27,6 +30,17 @@ const groundSprite = new Sprite({
 })
 mainScene.addChild(groundSprite);
 
+const key1 = new Button_Hold(
+    10 * 16, 
+    6 * 16
+)
+
+const keyHandler = new KeyHandler(
+    [key1]
+)
+mainScene.addChild(keyHandler);
+
+
 const shadowSprite = new Sprite({
     resource: resources.images.shadow,
     frameSize: new Vector2(32, 32)
@@ -36,7 +50,7 @@ const input = new Input();
 const map = new Map();
 
 
-const hero = new Hero(96, 96, input, map);
+const hero = new Hero(96, 96, input, map, keyHandler);
 mainScene.addChild(hero);
 
 

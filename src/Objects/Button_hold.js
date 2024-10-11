@@ -11,12 +11,12 @@ export class Button_Hold extends GameObject{
             position: new Vector2(x,y)
         })
         this.body = new Sprite({
-            resource: resources.images.button_up,
+            resource: resources.images.button_red_up,
             frameSize: new Vector2(16,16)
         });
         
         this.body_active = new Sprite({
-            resource: resources.images.button_down,
+            resource: resources.images.button_red_down,
             frameSize: new Vector2(16,16)
         });
         this.rectangle = new Rectangle(

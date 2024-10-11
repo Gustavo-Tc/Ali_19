@@ -10,6 +10,8 @@ import { Hero } from './src/Objects/Hero/Hero.js';
 import { Button_Single } from './src/Objects/Button_single.js';
 import { KeyHandler } from './src/Objects/KeyHandler.js';
 import { Button_Hold } from './src/Objects/Button_hold.js';
+import { Room } from './src/Room.js';
+import { level_1 } from './src/Rooms/room_1.js';
 
 
 const canvas = document.querySelector("#game-canvas");
@@ -18,42 +20,20 @@ const ctx = canvas.getContext("2d");
 
 const mainScene = new GameObject(new Vector2(0,0))
 
-const skySprite = new Sprite({
-    resource: resources.images.sky,
-    frameSize: new Vector2(320,180)
-})
-//mainScene.addChild(skySprite);
-
-const groundSprite = new Sprite({
-    resource: resources.images.map,
-    frameSize: new Vector2(320,180)
-})
-mainScene.addChild(groundSprite);
-
-const key1 = new Button_Hold(
-    10 * 16, 
-    6 * 16
-)
-
-const keyHandler = new KeyHandler(
-    [key1]
-)
-mainScene.addChild(keyHandler);
-
-
-const shadowSprite = new Sprite({
-    resource: resources.images.shadow,
-    frameSize: new Vector2(32, 32)
-})
+let activeRoom = new Room();
 
 const input = new Input();
-const map = new Map();
 
+const originalUrlLevel = document.getElementsByClassName("level")[0].id;
+console.log(originalUrlLevel);
+if(originalUrlLevel === "level_1"){
+ activeRoom = new level_1;
+}
 
-const hero = new Hero(96, 96, input, map, keyHandler);
+const hero = new Hero(activeRoom.playerStartPosition.x, activeRoom.playerStartPosition.y, input, activeRoom.map_collisions, activeRoom.keyHandler);
 mainScene.addChild(hero);
 
-
+resources.playBGM("bgm_01", .2);
 
 const update = (delta) => {
     mainScene.children.forEach(children => {
@@ -65,6 +45,8 @@ const update = (delta) => {
 
 
 const draw = () => {
+    
+    activeRoom.drawMap(ctx,0,0);
     mainScene.draw(ctx,0,0);
 }
 

@@ -68,7 +68,7 @@ export class Sprite extends GameObject{
         const frameSizeX = this.frameSize.x;
         const frameSizeY = this.frameSize.y;
 
-        console.log(this.resource.image)
+        //console.log(this.resource.image)
         ctx.drawImage(this.resource.image, frameCoordX, frameCoordY, frameSizeX, frameSizeY, x, y, frameSizeX * this.scale, frameSizeY * this.scale);
     }
 

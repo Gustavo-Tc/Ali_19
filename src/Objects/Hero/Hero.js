@@ -31,7 +31,7 @@ export class Hero extends GameObject{
             hFrames: 3,
             vFrames: 8,
             frame: 1,
-            position: new Vector2(16 * 6, 16 * 5),
+            position: new Vector2(0, 0),
             animations: new Animations({
                 walkDown: new FrameIndexPattern(WALK_DOWN),
                 walkUp: new FrameIndexPattern(WALK_UP),
@@ -127,7 +127,7 @@ export class Hero extends GameObject{
     }
 
     draw(ctx, x,y){
-        this.body.draw(ctx, this.position.x - 6 * 16, this.position.y - 5 * 16);
+        this.body.draw(ctx, this.position.x, this.position.y);
     }
 
     step(delta){

@@ -15,6 +15,9 @@ export class KeyHandler extends GameObject{
             position: new Vector2(0,0),
         });
         this.children = keys;
+        this.cleared = false;
+
+        this.clear_played = false;
     }
 
     draw(ctx){
@@ -37,5 +40,28 @@ export class KeyHandler extends GameObject{
                 key.onColliderExit();
             }
         });
+
+        this.checkClear();
+
+    }
+
+    checkClear(){
+        let cleared = true;
+        this.children.forEach(key => {
+            if(key.active === false) cleared = false;
+        });
+
+        if(cleared && !this.clear_played){
+            resources.playSFX("sfx_clear");
+            this.clear_played = true;
+
+            let url = "lvl_1.html";
+            history.pushState({}, "", url);
+            
+            document.title = "Level 2";
+
+        }
+        this.cleared = cleared;
+        return cleared;
     }
 }

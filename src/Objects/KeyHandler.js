@@ -10,19 +10,27 @@ import { Button_Hold} from "./Button_hold.js"
 
 export class KeyHandler extends GameObject{
     
-    constructor(keys){
+    constructor(clearFunction, keys, obstacles, map){
         super({
             position: new Vector2(0,0),
         });
         this.children = keys;
+
+        this.obstacles = obstacles;
         this.cleared = false;
 
         this.clear_played = false;
+        this.clearFunction = clearFunction;
+        this.map = map;
     }
 
     draw(ctx){
         
         this.children.forEach(key => {
+            key.draw(ctx);
+        });
+
+        this.obstacles.forEach(key => {
             key.draw(ctx);
         });
         
@@ -31,6 +39,20 @@ export class KeyHandler extends GameObject{
     step(delta){
 
     }
+    
+    updateMapTiles(){
+            this.obstacles.forEach(element => {
+                if(element.active){
+                    this.map.setCell(element.position.divide(16), 1);
+                }
+                else
+                {
+                        this.map.setCell(element.position.divide(16),0);
+                }
+            });
+        
+    }
+
 
     checkIfCollided(playerRectangle){
         this.children.forEach(key => {
@@ -52,16 +74,15 @@ export class KeyHandler extends GameObject{
         });
 
         if(cleared && !this.clear_played){
-            resources.playSFX("sfx_clear");
+            //resources.playSFX("sfx_clear");
             this.clear_played = true;
 
-            let url = "lvl_1.html";
-            history.pushState({}, "", url);
-            
-            document.title = "Level 2";
+            this.clearFunction();
 
         }
         this.cleared = cleared;
         return cleared;
     }
+
+    
 }

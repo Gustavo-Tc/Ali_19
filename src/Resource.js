@@ -13,11 +13,11 @@ class Resources {
             button_red_up: "./sprites/button_red_up.png",
             button_red_down: "./sprites/button_red_down.png",
             
+            gate_block: "./sprites/gate_block.png"
         };
 
         this.bgm = {
             bgm_01: new Audio("./audio/bgm/01.mp3")
-            
         }
 
         this.sfx = {

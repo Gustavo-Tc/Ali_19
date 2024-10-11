@@ -19,20 +19,12 @@ export class Rectangle{
         return this.y + this.height;
     }
 
-    Intercept(rectangle){
-        if(this.Left() > rectangle.Left() && this.Left() <= rectangle.Right()
-        ||this.Right() > rectangle.Left() && this.Left() <= rectangle.Right()){
+    Intercept(rectangle) {
+        return this.x <= (rectangle.x + rectangle.width) && (this.x + this.width) >= rectangle.x &&
+               this.y <= (rectangle.y + rectangle.height) && (this.y + this.height) >= rectangle.y;
+    }
 
-            if(rectangle.Top() > this.Top() && rectangle.Top() <= this.Bottom() 
-            || rectangle.Bottom() > this.Top() && rectangle.Bottom() <= this.Bottom()){
-            return true;
-            }else{
-                return false;
-            }
-            
-        }
-        else{
-            return false;
-        }
+    Offset(x = 0,y = 0){
+        return new Rectangle(this.x + x, this.y + y, this.width, this.height);
     }
 }

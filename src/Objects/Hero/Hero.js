@@ -45,7 +45,7 @@ export class Hero extends GameObject{
             })
         })
 
-        this.rectangle = new Rectangle(this.position.x, this.position.y, this.body.frameSize.x, this.body.frameSize.y);
+        this.rectangle = new Rectangle(this.position.x, this.position.y, this.body.frameSize.x, this.body.frameSize.y -1);
     }
 
     Move(delta){
@@ -74,20 +74,25 @@ export class Hero extends GameObject{
             let destination = this.input.direction;
             //destination = new Vector2(parseInt(destination.x), parseInt(destination.y));
 
+            this.keyHandler.updateMapTiles();
+
             this.position.x += destination.x;
+            
+
             if(destination.x < 0){
                 if(this.map.getCell(new Vector2(this.position.x / 16, this.rectangle.Top() / 16)) === 1 ||
                 this.map.getCell(new Vector2(this.position.x / 16, (this.rectangle.Bottom() - 1)/ 16)) === 1){
                     this.position.x -= destination.x;
                 }
+                
+
             }else if(destination.x > 0){
                 if(this.map.getCell(new Vector2(this.rectangle.Right() / 16, this.rectangle.Top() / 16)) === 1 ||
                 this.map.getCell(new Vector2(this.rectangle.Right() / 16, (this.rectangle.Bottom() - 1) / 16)) === 1){
                     this.position.x -= destination.x;
                 }
-            }
+            } 
 
-            
             
             this.position.y += destination.y;
             
@@ -102,6 +107,8 @@ export class Hero extends GameObject{
                     this.position.y -= destination.y;
                 }
             }
+
+            
 
         }else{
             if(this.lastDirection === UP){
@@ -126,13 +133,17 @@ export class Hero extends GameObject{
 
     }
 
+    getVectorFromPoint(rectangle){
+        
+    }
+
     draw(ctx, x,y){
         this.body.draw(ctx, this.position.x, this.position.y);
     }
 
     step(delta){
         this.rectangle.x = this.position.x;
-        this.rectangle.y = this.position.y;
+        this.rectangle.y = this.position.y + 1;
 
         this.body.step(delta);
         this.Move(delta);

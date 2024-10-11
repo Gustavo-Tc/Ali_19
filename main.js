@@ -33,7 +33,7 @@ if(originalUrlLevel === "level_1"){
 const hero = new Hero(activeRoom.playerStartPosition.x, activeRoom.playerStartPosition.y, input, activeRoom.map_collisions, activeRoom.keyHandler);
 mainScene.addChild(hero);
 
-resources.playBGM("bgm_01", .2);
+//resources.playBGM("bgm_01", .2);
 
 const update = (delta) => {
     mainScene.children.forEach(children => {

@@ -12,6 +12,7 @@ import { KeyHandler } from './src/Objects/KeyHandler.js';
 import { Button_Hold } from './src/Objects/Button_hold.js';
 import { Room } from './src/Room.js';
 import { level_1 } from './src/Rooms/room_1.js';
+import { level_2 } from './src/Rooms/room_2.js';
 
 
 const canvas = document.querySelector("#game-canvas");
@@ -29,11 +30,13 @@ console.log(originalUrlLevel);
 if(originalUrlLevel === "level_1"){
  activeRoom = new level_1;
 }
+if(originalUrlLevel === "level_2"){
+    activeRoom = new level_2;
+}
 
 const hero = new Hero(activeRoom.playerStartPosition.x, activeRoom.playerStartPosition.y, input, activeRoom.map_collisions, activeRoom.keyHandler);
 mainScene.addChild(hero);
 
-//resources.playBGM("bgm_01", .2);
 
 const update = (delta) => {
     mainScene.children.forEach(children => {

@@ -70,7 +70,9 @@ export class KeyHandler extends GameObject{
     checkClear(){
         let cleared = true;
         this.children.forEach(key => {
-            if(key.active === false) cleared = false;
+            if(key.isKey){
+              if(key.active === false) cleared = false;
+            }
         });
 
         if(cleared && !this.clear_played){

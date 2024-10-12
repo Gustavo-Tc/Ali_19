@@ -6,10 +6,11 @@ import { Rectangle } from "../Rectangle.js";
 
 export class Button_Hold extends GameObject{
     
-    constructor(x,y){
+    constructor(x,y,isKey){
         super({
             position: new Vector2(x,y)
         })
+        this.isKey = isKey;
         this.body = new Sprite({
             resource: resources.images.button_red_up,
             frameSize: new Vector2(16,16)

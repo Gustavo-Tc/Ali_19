@@ -17,7 +17,8 @@ class Resources {
         };
 
         this.bgm = {
-            bgm_01: new Audio("./audio/bgm/01.mp3")
+            bgm_01: new Audio("./audio/bgm/01.mp3"),
+            bgm_02: new Audio("./audio/bgm/02.mp3")
         }
 
         this.sfx = {
